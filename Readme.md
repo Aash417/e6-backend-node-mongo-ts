@@ -1,1 +1,1 @@
-# my video steaming platform with Node & TS
+# A template for backend projects
