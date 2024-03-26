@@ -47,7 +47,7 @@ export const loginUser = asyncHandler(async (req: Request, res: Response) => {
 
   const { username, password } = req.body;
 
-  const user = await User.findOne({ username });
+  const user = await User.findOne({ username }).select('+password');
   if (!user) throw new ApiError(404, 'User does not exist');
 
   const isPasswordValid = await user.isPasswordCorrect(password);
@@ -56,7 +56,7 @@ export const loginUser = asyncHandler(async (req: Request, res: Response) => {
   const accessToken = await user.generateAccessToken();
 
   const loggedInUser = await User.findById(user._id).select(
-    '-_id -password -__v -createdAt -updatedAt'
+    '-_id -__v -createdAt -updatedAt'
   );
 
   return res
